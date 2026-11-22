@@ -95,6 +95,16 @@ footer a{color:var(--accent)}
 .thanks{border:2px solid var(--accent);border-radius:4px;padding:24px;background:var(--bg)}
 .thanks h3{margin:0 0 8px}
 input[type=file]{padding:8px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:3px;width:100%}
+.revs{border-top:1px solid var(--line)}
+.rv-wrap{display:flex;align-items:stretch;gap:10px}
+.rv-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;flex:1;padding:4px 2px 10px;scrollbar-width:thin}
+.rv{flex:0 0 min(340px,82%);scroll-snap-align:start;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:4px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.rv .st{color:var(--accent);letter-spacing:2px;font-size:18px}
+.rv p{margin:0;color:var(--ink);font-size:15px}
+.rv .by{margin-top:auto;color:var(--muted);font-size:13px}
+.rv-btn{flex:0 0 40px;align-self:center;height:40px;border-radius:50%;border:2px solid var(--accent);background:var(--bg);color:var(--accent);font-size:24px;line-height:1;cursor:pointer}
+.rv-btn:focus-visible,.rv-track:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+@media (max-width:600px){.rv-btn{display:none}}
 </style>
 </head>
 <body>
@@ -110,7 +120,7 @@ input[type=file]{padding:8px;background:var(--bg);color:var(--ink);border:1px so
 <h1>Custom manufacturing &amp;<span>precision fabrication</span></h1>
 <p>3D printing, CNC router work, laser engraving, prototyping, and custom-designed parts from our shop in Houma, Louisiana. Ready-made tools and molds, plus engraved gear in any quantity.</p>
 <div class="row"><a class="btn" href="#shop">Shop the catalog</a><a class="btn alt" href="#quote">Get a custom quote</a></div>
-<div class="facts"><span><b>4.9</b> from 201 Etsy reviews</span><span><b>709</b> orders shipped</span><span>Free shipping on catalog items</span></div>
+<div class="facts"><span><b>4.9</b> from 201 Etsy reviews</span><span><b>708</b> orders shipped</span><span>Free shipping on catalog items</span></div>
 </div></div></div>
 
 <section id="featured"><div class="wrap">
@@ -206,6 +216,17 @@ input[type=file]{padding:8px;background:var(--bg);color:var(--ink);border:1px so
 </div>
 </div></section>
 
+<section id="reviews" class="revs" hidden><div class="wrap">
+<h2>What buyers say</h2>
+<p class="lead">Recent written reviews from our Etsy shop.</p>
+<div class="rv-wrap">
+<button class="rv-btn" id="rvp" type="button" aria-label="Previous reviews">&#8249;</button>
+<div class="rv-track" id="rvtrack" tabindex="0" role="region" aria-label="Customer reviews"></div>
+<button class="rv-btn" id="rvn" type="button" aria-label="Next reviews">&#8250;</button>
+</div>
+<p class="note"><a href="https://www.etsy.com/shop/DragonPrecisionWorks#reviews" target="_blank" rel="noopener">Read all reviews on Etsy</a></p>
+</div></section>
+
 <section id="about" class="abt"><div class="wrap">
 <h2>About Dragon Precision Works</h2>
 <p class="lead">Your idea. Our precision. Built to last.</p>
@@ -266,21 +287,21 @@ input[type=file]{padding:8px;background:var(--bg);color:var(--ink);border:1px so
 <script>
 var E="https://www.etsy.com/listing/";
 var P=[
-["Custom Cigar Mold, multiple ring gauges and sizes","Cigar",59.99,"4310168628"],
-["50 Ring Gauge Cigar Mold, 7 inch, 4, 6, or 10 slots","Cigar",77.99,"4611435645"],
-["46 Ring Gauge Cigar Mold, 6 inch, 4, 6, or 10 slots","Cigar",73.99,"4611433307"],
-["Magnetic Pocket Cigar Stand","Cigar",18,"4456412408"],
-["Uncle Bob’s Widgeon Blaster duck call","Duck calls",44.99,"4497413492"],
-["XL Diamond Painting Canvas Table Clamp V2","Diamond painting",40,"4445188687"],
-["8 to 100 Slot Diamond Painting Garage","Diamond painting",70,"1904798953"],
-["30 or 60 Tray Diamond Art Storage Garage","Diamond painting",80,"4461046445"],
-["30 Slot Glotrove Diamond Art Storage Garage","Diamond painting",80,"4567347064"],
-["36/76 Slot Large Pro Diamond Painting Garage","Diamond painting",170,"4425309992"],
-["Trabrick Diamond Art Storage Garage","Diamond painting",220,"4547732141"],
-["Diamond Painting Drill Aligner and Roller Set","Diamond painting",24.99,"4427247719"],
-["Diamond Painting Drill Funnel","Diamond painting",15,"1905143209"],
-["Diamond Painting Grinder for clumped drills","Diamond painting",15,"4317714980"],
-["Diamond Painting Wax Holder","Diamond painting",15,"4317708467"],
+["Custom Cigar Mold, multiple ring gauges and sizes","Cigar",38.99,"4310168628"],
+["50 Ring Gauge Cigar Mold, 7 inch, 4, 6, or 10 slots","Cigar",50.69,"4611435645"],
+["46 Ring Gauge Cigar Mold, 6 inch, 4, 6, or 10 slots","Cigar",48.09,"4611433307"],
+["Magnetic Pocket Cigar Stand","Cigar",11.7,"4456412408"],
+["Uncle Bob’s Widgeon Blaster duck call","Duck calls",35.99,"4497413492"],
+["XL Diamond Painting Canvas Table Clamp V2","Diamond painting",32,"4445188687"],
+["8 to 100 Slot Diamond Painting Garage","Diamond painting",56,"1904798953"],
+["30 or 60 Tray Diamond Art Storage Garage","Diamond painting",64,"4461046445"],
+["30 Slot Glotrove Diamond Art Storage Garage","Diamond painting",64,"4567347064"],
+["36/76 Slot Large Pro Diamond Painting Garage","Diamond painting",136,"4425309992"],
+["Trabrick Diamond Art Storage Garage","Diamond painting",176,"4547732141"],
+["Diamond Painting Drill Aligner and Roller Set","Diamond painting",19.99,"4427247719"],
+["Diamond Painting Drill Funnel","Diamond painting",12,"1905143209"],
+["Diamond Painting Grinder for clumped drills","Diamond painting",12,"4317714980"],
+["Diamond Painting Wax Holder","Diamond painting",12,"4317708467"],
 ["Personalized patch hat, laser engraved or full color logo","Hats and patches",35.99,"4622021914"],
 ["Custom leatherette patch, laser engraved or full color logo (patch only)","Hats and patches",79.84,"4622005013"]
 ];
@@ -440,6 +461,24 @@ window.DPW_FORM_URL=window.DPW_FORM_URL||"https://usebasin.com/f/305c4fa0d87a";
    msg("Sorry, that did not send. Please try again, or use the email option below.");document.getElementById("bfall").hidden=false;
   });
  });
+})();
+
+/*REV-START*/var REV=[];/*REV-END*/
+(function(){
+ var sec=document.getElementById("reviews");
+ if(!sec||!REV.length)return;
+ var tr=document.getElementById("rvtrack");
+ REV.forEach(function(r){
+  var d=document.createElement("div");d.className="rv";
+  var st=document.createElement("div");st.className="st";st.setAttribute("role","img");st.setAttribute("aria-label",r.r+" out of 5 stars");st.textContent="\u2605\u2605\u2605\u2605\u2605".slice(0,r.r);
+  var p=document.createElement("p");p.textContent="\u201c"+r.t+"\u201d";
+  var by=document.createElement("div");by.className="by";by.textContent="Etsy buyer"+(r.n?" \u00b7 "+r.n:"")+(r.d?" \u00b7 "+r.d:"");
+  d.appendChild(st);d.appendChild(p);d.appendChild(by);tr.appendChild(d)});
+ function step(dir){tr.scrollBy({left:dir*(tr.clientWidth*0.85),behavior:"smooth"})}
+ document.getElementById("rvp").onclick=function(){step(-1)};
+ document.getElementById("rvn").onclick=function(){step(1)};
+ tr.addEventListener("keydown",function(e){if(e.key==="ArrowRight"){e.preventDefault();step(1)}if(e.key==="ArrowLeft"){e.preventDefault();step(-1)}});
+ sec.hidden=false;
 })();
 renderFeat();renderChips();renderGrid();initKnife();renderQ();
 </script>
