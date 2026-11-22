@@ -44,12 +44,9 @@ html = html.replace(/\["([^"]*)","([^"]*)",([\d.]+),"(\d+)"\]/g, (m, name, cat, 
 try {
   const names = {};
   for (const m of html.matchAll(/\["([^"]*)","[^"]*",[\d.]+,"(\d+)"\]/g)) names[m[2]] = m[1];
-  let all = [];
-  for (let offset = 0; offset < 300; offset += 100) {
-    const page = await api(`/shops/${shopId}/reviews?limit=100&offset=${offset}`);
-    all = all.concat(page.results || []);
-    if ((page.results || []).length < 100) break;
-  }
+  // Etsy only allows the first page of reviews for anonymous requests, which is plenty for 12 cards.
+  const page = await api(`/shops/${shopId}/reviews?limit=100`);
+  const all = page.results || [];
   const picked = all
     .filter(r => r.rating >= 4 && typeof r.review === "string" && r.review.trim().length >= 25)
     .sort((a, b) => (b.create_timestamp || 0) - (a.create_timestamp || 0))
