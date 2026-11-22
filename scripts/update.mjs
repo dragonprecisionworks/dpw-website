@@ -40,5 +40,33 @@ html = html.replace(/\["([^"]*)","([^"]*)",([\d.]+),"(\d+)"\]/g, (m, name, cat, 
   if (Math.abs(nv - o) > 0.001) { console.log(`Price ${name}: ${o} -> ${nv}`); changed++; return `["${name}","${cat}",${nv},"${id}"]`; }
   return m;
 });
+// Reviews carousel data. Never blocks the other updates: on any problem the existing reviews stay as they are.
+try {
+  const names = {};
+  for (const m of html.matchAll(/\["([^"]*)","[^"]*",[\d.]+,"(\d+)"\]/g)) names[m[2]] = m[1];
+  let all = [];
+  for (let offset = 0; offset < 300; offset += 100) {
+    const page = await api(`/shops/${shopId}/reviews?limit=100&offset=${offset}`);
+    all = all.concat(page.results || []);
+    if ((page.results || []).length < 100) break;
+  }
+  const picked = all
+    .filter(r => r.rating >= 4 && typeof r.review === "string" && r.review.trim().length >= 25)
+    .sort((a, b) => (b.create_timestamp || 0) - (a.create_timestamp || 0))
+    .slice(0, 12)
+    .map(r => {
+      let t = r.review.trim().replace(/\s+/g, " ");
+      if (t.length > 320) t = t.slice(0, 317).replace(/\s+\S*$/, "") + "...";
+      const d = r.create_timestamp ? new Date(r.create_timestamp * 1000).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" }) : "";
+      const o = { r: r.rating, t, d };
+      if (names[String(r.listing_id)]) o.n = names[String(r.listing_id)];
+      return o;
+    });
+  if (picked.length >= 3) {
+    const json = JSON.stringify(picked).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+    const next = html.replace(/\/\*REV-START\*\/[\s\S]*?\/\*REV-END\*\//, () => `/*REV-START*/var REV=${json};/*REV-END*/`);
+    if (next !== html) { html = next; changed++; console.log(`Reviews: ${picked.length} shown (of ${all.length} read)`); }
+  } else console.warn(`Reviews: only ${picked.length} usable, carousel left unchanged`);
+} catch (e) { console.warn("Reviews skipped:", e.message); }
 fs.writeFileSync("index.html", html);
 console.log(`Done. ${changed} change(s). Stats: ${rating} / ${reviews} reviews / ${sold} sold. Listings seen: ${Object.keys(prices).length}`);
